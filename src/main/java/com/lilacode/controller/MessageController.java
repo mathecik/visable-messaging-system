@@ -9,14 +9,14 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/messages")
 public class MessageController {
 
     @Autowired
     @Resource
     private MessageService messageService;
 
-    @PostMapping("/send")
+    @PostMapping
     public void sendMessage(@RequestParam(value = "from") int from, @RequestParam(value = "to") int to, @RequestParam(value = "content") String content) {
         messageService.sendMessage(from, to, content);
     }
@@ -30,7 +30,7 @@ public class MessageController {
         return messageService.getOutbox(userId);
     }
 
-    @DeleteMapping(value="/delete")
+    @DeleteMapping
     public String deleteMessage(@RequestParam(value = "id") int messageId){
         return messageService.deleteMessage(messageId);
     }

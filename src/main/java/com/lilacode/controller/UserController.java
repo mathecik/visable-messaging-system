@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -20,10 +20,9 @@ public class UserController {
     public User signup(@RequestParam(value = "name", defaultValue = "-") String nickname) {
         return userService.createUser(nickname);
     }
-    @GetMapping(value = "/allusers")
-    public List<User> getEmployees() {
+    @GetMapping
+    public List<User> getUsers() {
         return userService.getAllUsers();
-
     }
 
     @GetMapping
