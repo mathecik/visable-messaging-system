@@ -1,5 +1,6 @@
 package com.lilacode.controller;
 
+import com.lilacode.controller.payload.MessagePayload;
 import com.lilacode.entities.Message;
 import com.lilacode.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +17,22 @@ public class MessageController {
     @Resource
     private MessageService messageService;
 
-    @PostMapping
-    public void sendMessage(@RequestParam(value = "from") int from, @RequestParam(value = "to") int to, @RequestParam(value = "content") String content) {
-        messageService.sendMessage(from, to, content);
+    @PostMapping(consumes = {"application/json"})
+    public void sendMessage(@RequestBody MessagePayload message) {
+        messageService.sendMessage(message.getFrom(), message.getTo(), message.getContent());
     }
-    @GetMapping(value = "/inbox")
+    @GetMapping(value = "/received")
     public List<Message> getInbox(@RequestParam(value = "user") int userId) {
         return messageService.getInbox(userId);
     }
 
-    @GetMapping(value="/outbox")
+    @GetMapping(value = "/sent")
     public List<Message> getOutbox(@RequestParam(value = "user") int userId) {
         return messageService.getOutbox(userId);
     }
 
-    @DeleteMapping
-    public String deleteMessage(@RequestParam(value = "id") int messageId){
+    @DeleteMapping("/{id}")
+    public String deleteMessage(@PathVariable("id") Integer messageId){
         return messageService.deleteMessage(messageId);
     }
 }
